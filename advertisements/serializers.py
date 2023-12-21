@@ -46,6 +46,6 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         # self.instance отсутствует если объект создается.
         # Это условие нужно чтобы проходила валидация при редактировании
         if not self.instance or data.get('status') == 'OPEN':
-            if Advertisement.objects.filter(status='OPEN').count() > 10:
+            if Advertisement.objects.filter(creator=user, status='OPEN').count() > 10:
                 raise serializers.ValidationError(f'Пользователь {user} не может создать больше 10 открытых объявлений!')
         return data
